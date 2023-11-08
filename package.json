@@ -4,6 +4,21 @@
   "author": "Karyana Yandi <halo@yandi.me>",
   "homepage": "https://github.com/karyanayandi/tripay-sdk",
   "license": "MIT",
+  "main": "index.js",
+  "module": "index.mjs",
+  "types": "index.d.ts",
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "types": "./index.d.ts",
+      "require": "./index.js",
+      "default": "./index.mjs"
+    }
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/karyanayandi/tripay-sdk"
@@ -13,7 +28,7 @@
   },
   "packageManager": "pnpm@8.5.1",
   "scripts": {
-    "build": "npm run clean:build && tsup && cp package.json ./dist/",
+    "build": "npm run clean:build && tsup",
     "typecheck": "tsc --noEmit",
     "clean": "rimraf node_modules build dist",
     "clean:build": "rimraf build dist",
@@ -22,20 +37,20 @@
     "release": "bumpp --tag --commit --push"
   },
   "devDependencies": {
-    "@types/node": "^20.2.3",
-    "@typescript-eslint/eslint-plugin": "^5.59.7",
-    "@typescript-eslint/parser": "^5.59.7",
-    "bumpp": "^9.1.0",
-    "eslint": "8.41.0",
-    "eslint-config-prettier": "^8.8.0",
-    "eslint-plugin-prettier": "^4.2.1",
-    "prettier": "^2.8.8",
-    "rimraf": "^5.0.1",
-    "tslib": "^2.5.2",
-    "tsup": "^6.7.0",
-    "typescript": "^5.0.4"
+    "@types/node": "^20.9.0",
+    "@typescript-eslint/eslint-plugin": "^6.10.0",
+    "@typescript-eslint/parser": "^6.10.0",
+    "bumpp": "^9.2.0",
+    "eslint": "8.53.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.1",
+    "prettier": "^3.0.3",
+    "rimraf": "^5.0.5",
+    "tslib": "^2.6.2",
+    "tsup": "^7.2.0",
+    "typescript": "^5.2.2"
   },
   "dependencies": {
-    "axios": "^1.4.0"
+    "axios": "^1.6.0"
   }
 }
