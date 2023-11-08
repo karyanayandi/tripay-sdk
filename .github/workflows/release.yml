@@ -23,7 +23,7 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm lint
       - run: pnpm build
-      - run: cd dist && npm publish
+      - run: cp package.json dist/ && cp README.md dist/ && cd dist && npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_SECRET}}
       - run: npx conventional-github-releaser -p angular
