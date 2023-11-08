@@ -106,7 +106,7 @@ const openTransactionDetail = await tripay.openTransactionDetail({
 });
 ```
 
-NODE:
+NOTE:
 * Closed Transaction Payment Method List: 
   - MYBVA
   - PERMATAVA
