@@ -158,7 +158,7 @@ export default function createTripayConfig({
       )
       return data
     } catch (error) {
-      throw new Error("An error occurred while making the request.")
+      return error
     }
   }
 
@@ -170,7 +170,7 @@ export default function createTripayConfig({
       })
       return data
     } catch (error) {
-      throw new Error("An error occurred while making the request.")
+      return error
     }
   }
 
@@ -187,7 +187,7 @@ export default function createTripayConfig({
       )
       return data
     } catch (error) {
-      throw new Error("An error occurred while making the request.")
+      return error
     }
   }
 
@@ -202,7 +202,7 @@ export default function createTripayConfig({
       )
       return data
     } catch (error) {
-      throw new Error("An error occurred while making the request.")
+      return error
     }
   }
 
@@ -217,7 +217,7 @@ export default function createTripayConfig({
       )
       return data
     } catch (error) {
-      throw new Error("An error occurred while making the request.")
+      return error
     }
   }
 
@@ -265,7 +265,7 @@ export default function createTripayConfig({
       )
       return data
     } catch (error) {
-      throw new Error("An error occurred while making the request.")
+      return error
     }
   }
 
@@ -296,7 +296,7 @@ export default function createTripayConfig({
 
       return data
     } catch (error) {
-      throw new Error("An error occurred while making the request.")
+      return error
     }
   }
 
@@ -314,7 +314,7 @@ export default function createTripayConfig({
 
       return data
     } catch (error) {
-      throw new Error("An error occurred while making the request.")
+      return error
     }
   }
 
@@ -331,7 +331,7 @@ export default function createTripayConfig({
       )
       return data
     } catch (error) {
-      throw new Error("An error occurred while making the request.")
+      return error
     }
   }
 
