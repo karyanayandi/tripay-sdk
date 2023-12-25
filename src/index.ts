@@ -381,15 +381,12 @@ export default function createTripayConfig({
       const axiosError = error as AxiosError<unknown>
       if (axiosError.response) {
         const { status, data } = axiosError.response
-
         let errorMessage = "Unknown error occurred"
-
         if (typeof data === "string") {
           errorMessage = data
         } else if (data && typeof data === "object" && "message" in data) {
           errorMessage = data.message as string
         }
-
         throw new Error(`Request failed with status ${status}: ${errorMessage}`)
       } else if (axiosError.request) {
         throw new Error("No response received from the server")
@@ -444,15 +441,12 @@ export default function createTripayConfig({
       const axiosError = error as AxiosError<unknown>
       if (axiosError.response) {
         const { status, data } = axiosError.response
-
         let errorMessage = "Unknown error occurred"
-
         if (typeof data === "string") {
           errorMessage = data
         } else if (data && typeof data === "object" && "message" in data) {
           errorMessage = data.message as string
         }
-
         throw new Error(`Request failed with status ${status}: ${errorMessage}`)
       } else if (axiosError.request) {
         throw new Error("No response received from the server")
@@ -476,15 +470,12 @@ export default function createTripayConfig({
       const axiosError = error as AxiosError<unknown>
       if (axiosError.response) {
         const { status, data } = axiosError.response
-
         let errorMessage = "Unknown error occurred"
-
         if (typeof data === "string") {
           errorMessage = data
         } else if (data && typeof data === "object" && "message" in data) {
           errorMessage = data.message as string
         }
-
         throw new Error(`Request failed with status ${status}: ${errorMessage}`)
       } else if (axiosError.request) {
         throw new Error("No response received from the server")
@@ -541,15 +532,12 @@ export default function createTripayConfig({
       const axiosError = error as AxiosError<unknown>
       if (axiosError.response) {
         const { status, data } = axiosError.response
-
         let errorMessage = "Unknown error occurred"
-
         if (typeof data === "string") {
           errorMessage = data
         } else if (data && typeof data === "object" && "message" in data) {
           errorMessage = data.message as string
         }
-
         throw new Error(`Request failed with status ${status}: ${errorMessage}`)
       } else if (axiosError.request) {
         throw new Error("No response received from the server")
@@ -589,15 +577,12 @@ export default function createTripayConfig({
       const axiosError = error as AxiosError<unknown>
       if (axiosError.response) {
         const { status, data } = axiosError.response
-
         let errorMessage = "Unknown error occurred"
-
         if (typeof data === "string") {
           errorMessage = data
         } else if (data && typeof data === "object" && "message" in data) {
           errorMessage = data.message as string
         }
-
         throw new Error(`Request failed with status ${status}: ${errorMessage}`)
       } else if (axiosError.request) {
         throw new Error("No response received from the server")
@@ -624,15 +609,12 @@ export default function createTripayConfig({
       const axiosError = error as AxiosError<unknown>
       if (axiosError.response) {
         const { status, data } = axiosError.response
-
         let errorMessage = "Unknown error occurred"
-
         if (typeof data === "string") {
           errorMessage = data
         } else if (data && typeof data === "object" && "message" in data) {
           errorMessage = data.message as string
         }
-
         throw new Error(`Request failed with status ${status}: ${errorMessage}`)
       } else if (axiosError.request) {
         throw new Error("No response received from the server")
@@ -658,15 +640,12 @@ export default function createTripayConfig({
       const axiosError = error as AxiosError<unknown>
       if (axiosError.response) {
         const { status, data } = axiosError.response
-
         let errorMessage = "Unknown error occurred"
-
         if (typeof data === "string") {
           errorMessage = data
         } else if (data && typeof data === "object" && "message" in data) {
           errorMessage = data.message as string
         }
-
         throw new Error(`Request failed with status ${status}: ${errorMessage}`)
       } else if (axiosError.request) {
         throw new Error("No response received from the server")
