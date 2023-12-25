@@ -141,10 +141,14 @@ export interface PaymentChannelReturnProps extends AxiosResponse {
   message: string
   data: {
     group: string
-    code: string
+    code: ClosedPaymentCode | OpenPaymentCode
     name: string
     type: string
-    fee_merchant: {
+    fee_merchant?: {
+      flat: number
+      percent: number
+    }
+    fee_customer?: {
       flat: number
       percent: number
     }
@@ -163,7 +167,7 @@ export interface FeeCalculatorReturnProps extends AxiosResponse {
   success: boolean
   message: string
   data: {
-    code: string
+    code: ClosedPaymentCode | OpenPaymentCode
     name: string
     fee: {
       flat: number
@@ -185,7 +189,7 @@ export interface TransactionsReturnProps extends AxiosResponse {
     reference: string
     merchant_ref: string
     payment_selection_type: string
-    payment_method: string
+    payment_method: ClosedPaymentCode | OpenPaymentCode
     payment_name: string
     customer_name: string
     customer_email: string
