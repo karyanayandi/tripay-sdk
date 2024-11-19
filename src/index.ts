@@ -2,37 +2,36 @@ import crypto from "crypto"
 import axios, { type AxiosError, type AxiosResponse } from "axios"
 
 export type ClosedPaymentCode =
-  | "MYBVA"
-  | "PERMATAVA"
-  | "BNIVA"
-  | "BRIVA"
-  | "MANDIRIVA"
-  | "BCAVA"
-  | "SMSVA"
-  | "MUAMALATVA"
-  | "CIMBVA"
-  | "SAMPOERNAVA"
-  | "BSIVA"
-  | "DANAMONVA"
-  | "ALFAMART"
-  | "INDOMARET"
-  | "ALFAMIDI"
-  | "OVO"
-  | "QRIS"
-  | "QRIS2"
-  | "QRISC"
-  | "QRISD"
-  | "SHOPEEPAY"
+  | "ALFAMART" // Alfamart
+  | "ALFAMIDI" // Alfamidi
+  | "BNIVA" // BNI Virtual Account
+  | "BRIVA" // BRI Virtual Account
+  | "BSIVA" // BSI Virtual Account
+  | "CIMBVA" // CIMB Niaga Virtual Account
+  | "DANA" // DANA
+  | "DANAMONVA" // Danamon Virtual Account
+  | "INDOMARET" // Indomaret
+  | "MANDIRIVA" // Mandiri Virtual Account
+  | "MUAMALATVA" // Mualamat Virtual Account
+  | "OCBCVA" // OCBC NISP Virtual Account
+  | "OTHERBANKVA" // Other Bank Virtual Account
+  | "OVO" // OVO
+  | "PERMATAVA" // Permata Virtual Account
+  | "QRIS" // QRIS by ShopeePay
+  | "QRIS2" // QRIS
+  | "QRISC" // QRIS Customizable
+  | "QRIS_SHOPPEEPAY" // QRIS Custom by ShopeePay
+  | "SHOPEEPAY" // ShopeePay
 
 export type OpenPaymentCode =
-  | "BNIVAOP"
-  | "HANAVAOP"
-  | "DANAMONOP"
-  | "CIMBVAOP"
-  | "BRIVAOP"
-  | "QRISOP"
-  | "QRISCOP"
-  | "BSIVAOP"
+  | "BNIVAOP" // BNI Virtual Account Open Payment
+  | "BRIVAOP" // BRI Virtual Account Open Payment
+  | "BSIVAOP" // BsI Virtual Account Open Payment
+  | "CIMBVAOP" // CIMB Niaga Virtual Account Open Payment
+  | "DANAMONOP" // Danamon Virtual Account Open Payment
+  | "HANAVAOP" // Hana Virtual Account Open Payment
+  | "QRISCOP" // QRIS Customizable Open Payment
+  | "QRISOP" // QRIS Open Payment
 
 export interface TripayConfigProps {
   apiKey: string
@@ -41,38 +40,26 @@ export interface TripayConfigProps {
   isProduction?: boolean
 }
 
-export interface TripayInputProps<T> {
-  instruction: ({
-    code,
-    pay_code,
-    amount,
-    allow_html,
-  }: InstructionProps) => Promise<T>
-  paymentChannel: () => Promise<T>
-  feeCalculator: ({ code, amount }: FeeCalculatorProps) => Promise<T>
-  transactions: ({ page, per_page }: TransctionsProps) => Promise<T>
-  openTransactions: ({ uuid }: OpenTransactionDetailProps) => Promise<T>
-  createClosedTransaction: ({
-    method,
-    merchant_ref,
-    amount,
-    customer_name,
-    customer_email,
-    customer_phone,
-    order_items,
-    callback_url,
-    return_url,
-    expired_time,
-  }: CreateClosedTransactionProps) => Promise<T>
-  createOpenTransaction: ({
-    method,
-    merchant_ref,
-    customer_name,
-  }: CreateOpenTransactionProps) => Promise<T>
-  closedTransactionDetail: ({
-    reference,
-  }: ClosedTransactionDetailProps) => Promise<T>
-  openTransactionDetail: ({ uuid }: OpenTransactionDetailProps) => Promise<T>
+export interface TripayInputProps {
+  instruction: (props: InstructionProps) => Promise<InstructionReturnProps>
+  paymentChannel: () => Promise<PaymentChannelReturnProps>
+  feeCalculator: (
+    props: FeeCalculatorProps,
+  ) => Promise<FeeCalculatorReturnProps>
+  transactions: (props: TransctionsProps) => Promise<TransactionsReturnProps>
+  openTransactions: (uuid: string) => Promise<OpenTransactionsReturnProps>
+  createClosedTransaction: (
+    props: CreateClosedTransactionProps,
+  ) => Promise<CreateClosedTransactionReturnProps>
+  createOpenTransaction: (
+    props: CreateOpenTransactionProps,
+  ) => Promise<CreateOpenTransactionReturnProps>
+  closedTransactionDetail: (
+    reference: string,
+  ) => Promise<ClosedTransactionDetailReturnProps>
+  openTransactionDetail: (
+    uuid: string,
+  ) => Promise<OpenTransactionDetailReturnProps>
 }
 
 export interface InstructionProps {
@@ -99,18 +86,20 @@ export interface CreateClosedTransactionProps {
   customer_name: string
   customer_email: string
   customer_phone: string
-  order_items: {
-    sku: string
-    name: string
-    price: number
-    quantity: number
-    subtotal: number
-    product_url: string
-    image_url: string
-  }[]
+  order_items: OrderItem[]
   callback_url?: string
   return_url?: string
   expired_time?: number
+}
+
+interface OrderItem {
+  sku: string
+  name: string
+  price: number
+  quantity: number
+  subtotal: number
+  product_url: string
+  image_url: string
 }
 
 export interface CreateOpenTransactionProps {
@@ -119,21 +108,60 @@ export interface CreateOpenTransactionProps {
   customer_name: string
 }
 
-export interface ClosedTransactionDetailProps {
-  reference: string
+export interface ClosedTransactionDetailReturnProps {
+  success: boolean
+  message: string
+  data: {
+    reference: string
+    merchant_ref: string
+    payment_selection_type: string
+    payment_method: string
+    payment_name: string
+    customer_name: string
+    customer_email: string
+    customer_phone: string
+    callback_url: string
+    return_url: string
+    amount: number
+    fee_merchant: number
+    fee_customer: number
+    total_fee: number
+    amount_received: number
+    pay_code: string
+    pay_url: string | null
+    checkout_url: string
+    status: string
+    paid_at: string
+    expired_time: number
+    order_items: OrderItem[]
+    instructions: InstructionDataReturnProps[]
+  }
 }
 
-export interface OpenTransactionDetailProps {
-  uuid: string
+export interface OpenTransactionDetailReturnProps {
+  success: boolean
+  message: string
+  data: {
+    uuid: string
+    merchant_ref: string
+    customer_name: string
+    payment_name: string
+    payment_method: string
+    pay_code: string
+    qr_string: string | null
+    qr_url: string | null
+  }
+}
+
+interface InstructionDataReturnProps {
+  title: string
+  steps: string[]
 }
 
 export interface InstructionReturnProps extends AxiosResponse {
   success: boolean
   message: string
-  data: {
-    title: string
-    steps: string[]
-  }[]
+  data: InstructionDataReturnProps[]
 }
 
 export interface PaymentChannelReturnProps extends AxiosResponse {
@@ -327,18 +355,16 @@ export default function createTripayConfig({
   privateKey,
   merchant_code,
   isProduction = false,
-}: TripayConfigProps): TripayInputProps<unknown> {
+}: TripayConfigProps): TripayInputProps {
   const endpoint = isProduction
     ? "https://tripay.co.id/api"
     : "https://tripay.co.id/api-sandbox"
 
-  //Instructions
-  const instruction = async ({
-    code,
-    pay_code,
-    amount,
-    allow_html,
-  }: InstructionProps) => {
+  const instruction = async (
+    props: InstructionProps,
+  ): Promise<InstructionReturnProps> => {
+    const { code, pay_code, amount, allow_html } = props
+
     const params =
       (pay_code ? `&pay_code=${pay_code}` : "") +
       (amount ? `&amount=${amount}` : "") +
@@ -371,8 +397,7 @@ export default function createTripayConfig({
     }
   }
 
-  //Payment Channel
-  const paymentChannel = async () => {
+  const paymentChannel = async (): Promise<PaymentChannelReturnProps> => {
     try {
       const { data } = await axios.get<PaymentChannelReturnProps>(
         `${endpoint}/merchant/payment-channel`,
@@ -400,8 +425,11 @@ export default function createTripayConfig({
     }
   }
 
-  //FEE Calculator
-  const feeCalculator = async ({ code, amount }: FeeCalculatorProps) => {
+  const feeCalculator = async (
+    props: FeeCalculatorProps,
+  ): Promise<FeeCalculatorReturnProps> => {
+    const { amount, code } = props
+
     try {
       const { data } = await axios.get<FeeCalculatorReturnProps>(
         `${endpoint}/merchant/fee-calculator/${
@@ -431,8 +459,11 @@ export default function createTripayConfig({
     }
   }
 
-  //Transctions
-  const transactions = async ({ page, per_page }: TransctionsProps) => {
+  const transactions = async (
+    props: TransctionsProps,
+  ): Promise<TransactionsReturnProps> => {
+    const { page, per_page } = props
+
     try {
       const { data } = await axios.get<TransactionsReturnProps>(
         `${endpoint}/merchant/transactions?page=${page}&per_page=${per_page} `,
@@ -460,8 +491,9 @@ export default function createTripayConfig({
     }
   }
 
-  //Open Transaction
-  const openTransactions = async ({ uuid }: OpenTransactionDetailProps) => {
+  const openTransactions = async (
+    uuid: string,
+  ): Promise<OpenTransactionsReturnProps> => {
     try {
       const { data } = await axios.get<OpenTransactionsReturnProps>(
         `https://tripay.co.id/api/open-payment/${uuid}/transactions`,
@@ -489,19 +521,22 @@ export default function createTripayConfig({
     }
   }
 
-  //Create Closed Transaction
-  const createClosedTransaction = async ({
-    method,
-    merchant_ref,
-    amount,
-    customer_name,
-    customer_email,
-    customer_phone,
-    order_items,
-    callback_url,
-    return_url,
-    expired_time,
-  }: CreateClosedTransactionProps) => {
+  const createClosedTransaction = async (
+    props: CreateClosedTransactionProps,
+  ): Promise<CreateClosedTransactionReturnProps> => {
+    const {
+      method,
+      merchant_ref,
+      amount,
+      customer_name,
+      customer_email,
+      customer_phone,
+      order_items,
+      callback_url,
+      return_url,
+      expired_time,
+    } = props
+
     const expiry: number = expired_time
       ? Math.floor(new Date().getTime() / 1000) + expired_time * 60 * 60
       : Math.floor(new Date().getTime() / 1000) + 1 * 60 * 60
@@ -551,12 +586,11 @@ export default function createTripayConfig({
     }
   }
 
-  //Create Open Transaction
-  const createOpenTransaction = async ({
-    method,
-    merchant_ref,
-    customer_name,
-  }: CreateOpenTransactionProps) => {
+  const createOpenTransaction = async (
+    props: CreateOpenTransactionProps,
+  ): Promise<CreateOpenTransactionReturnProps> => {
+    const { method, merchant_ref, customer_name } = props
+
     const payload = {
       method,
       merchant_ref,
@@ -596,12 +630,11 @@ export default function createTripayConfig({
     }
   }
 
-  //Closed Transaction Detail
-  const closedTransactionDetail = async ({
-    reference,
-  }: ClosedTransactionDetailProps) => {
+  const closedTransactionDetail = async (
+    reference: string,
+  ): Promise<ClosedTransactionDetailReturnProps> => {
     try {
-      const { data } = await axios.get<CreateClosedTransactionReturnProps>(
+      const { data } = await axios.get<ClosedTransactionDetailReturnProps>(
         `${endpoint}/transaction/detail?reference=${reference}`,
         {
           headers: { Authorization: "Bearer " + apiKey },
@@ -628,12 +661,11 @@ export default function createTripayConfig({
     }
   }
 
-  //Open Transaction Detail
-  const openTransactionDetail = async ({
-    uuid,
-  }: OpenTransactionDetailProps) => {
+  const openTransactionDetail = async (
+    uuid: string,
+  ): Promise<OpenTransactionDetailReturnProps> => {
     try {
-      const { data } = await axios.get<CreateOpenTransactionProps>(
+      const { data } = await axios.get<OpenTransactionDetailReturnProps>(
         `https://tripay.co.id/api/open-payment/${uuid}/detail`,
         {
           headers: { Authorization: "Bearer " + apiKey },
