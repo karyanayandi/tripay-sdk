@@ -8,6 +8,8 @@ pnpm add tripay-sdk
 npm install tripay-sdk
 # or
 yarn add tripay-sdk
+# or
+bun add tripay-sdk
 ```
 
 ## API
@@ -58,9 +60,7 @@ const transactions = await tripay.transactions({
 
 ##### Open Transactions
 ```js
-const openTransaction = await tripay.openTransactions({
-    uuid: 'uuid'
-});
+const openTransaction = await tripay.openTransactions('uuid');
 ```
 
 #### Create Transaction
@@ -94,49 +94,44 @@ const openTransaction = await tripay.createOpenTransaction({
 
 ##### Get Closed Transaction Detail
 ```js
-const closedTransactionDetail = await tripay.closedTransactionDetail({
-    reference: 'reference number'
-});
+const closedTransactionDetail = await tripay.closedTransactionDetail('reference');
 ```
 
 ##### Get Open Transaction Detail
 ```js
-const openTransactionDetail = await tripay.openTransactionDetail({
-    uuid: 'uuid'
-});
+const openTransactionDetail = await tripay.openTransactionDetail('uuid');
 ```
 
 NOTE:
 * Closed Transaction Payment Method List: 
-  - MYBVA
-  - PERMATAVA
-  - BNIVA
-  - BRIVA
-  - MANDIRIVA
-  - BCAVA
-  - SMSVA
-  - MUAMALATVA
-  - CIMBVA
-  - SAMPOERNAVA
-  - BSIVA
-  - DANAMONVA
-  - ALFAMART
-  - INDOMARET
-  - ALFAMIDI
-  - OVO
-  - QRIS
-  - QRIS2
-  - QRISC
-  - QRISD
-  - SHOPEEPAY
+  - ALFAMART (Alfamart)
+  - ALFAMIDI (Alfamidi)
+  - BNIVA (BNI Virtual Account)
+  - BRIVA (BRI Virtual Account)
+  - BSIVA (BSI Virtual Account)
+  - CIMBVA (CIMB Niaga Virtual Account)
+  - DANA (DANA)
+  - DANAMONVA (Danamon Virtual Account)
+  - INDOMARET (Indomaret)
+  - MANDIRIVA (Mandiri Virtual Account)
+  - MUAMALATVA (Mualamat Virtual Account)
+  - OCBCVA (OCBC NISP Virtual Account)
+  - OTHERBANKVA (Other Bank Virtual Account)
+  - OVO (OVO)
+  - PERMATAVA (Permata Virtual Account)
+  - QRIS (QRIS by ShopeePay)
+  - QRIS2 (QRIS)
+  - QRISC (QRIS Customizable)
+  - QRIS_SHOPPEEPAY (QRIS Custom by ShopeePay)
+  - SHOPEEPAY (ShopeePay)
 * Open Transaction Payment Method List:
-  - BNIVAOP
-  - HANAVAOP
-  - DANAMONOP
-  - CIMBVAOP
-  - BRIVAOP
-  - QRISOP
-  - QRISCOP
-  - BSIVAOP
+  - BNIVAOP (BNI Virtual Account Open Payment)
+  - BRIVAOP (BRI Virtual Account Open Payment)
+  - BSIVAOP (BsI Virtual Account Open Payment)
+  - CIMBVAOP (CIMB Niaga Virtual Account Open Payment)
+  - DANAMONOP (Danamon Virtual Account Open Payment)
+  - HANAVAOP (Hana Virtual Account Open Payment)
+  - QRISCOP (QRIS Customizable Open Payment)
+  - QRISOP (QRIS Open Payment)
 
 ### Webhook (Coming Soon)
